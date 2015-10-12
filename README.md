@@ -1,5 +1,6 @@
 # web
-Cours "Conception de sites Web"
+## Cours "Conception de sites Web" 
+disponible sur GitHub (<a href="https://github.com/frosch74/web">https://github.com/frosch74/web</a>)
 
 Il utilise le moteur de présentation <a href="https://github.com/shower/shower">Shower</a>.
 
