@@ -483,8 +483,8 @@
 			<li>Méthodes : <code>getAttribute()</code> et <code>setAttribute()</code></li>
 		</ul>
       <pre>
-        <code>    &lt;p&gt;&lt;a href="http://www.ensicaen.fr" id="l21_1"&gt;ENSICAEN&lt;/a&gt;&lt;/p&gt;</code>
-        <code>    &lt;p&gt;&lt;a href="http://www.insa.fr" id="l21_2"&gt;INSA&lt;/a&gt;&lt;/p&gt;</code>
+        <code>    &lt;p&gt;&lt;a href="http://www.google.fr" id="l21_1"&gt;Google&lt;/a&gt;&lt;/p&gt;</code>
+        <code>    &lt;p&gt;&lt;a href="http://www.yahoo.fr" id="l21_2"&gt;Yahoo&lt;/a&gt;&lt;/p&gt;</code>
         <code>    &lt;script&gt;</code>
         <code>      var lien1 = document.getElementById("l21_1").<mark>getAttribute('href')</mark>;</code>
         <code>      var lien2 = document.getElementById("l21_2").getAttribute('href');</code>
@@ -504,8 +504,8 @@
 		<ul onclick=accesAttributs()>
 			<li>Méthodes : <code>getAttribute()</code> et <code>setAttribute()</code></li>
 		</ul>
-        <p><a href="http://www.ensicaen.fr" id="l21_1">ENSICAEN</a></p>
-        <p><a href="http://www.insa.fr" id="l21_2">INSA</a></p>
+        <p><a href="http://www.google.fr" id="l21_1">Google</a></p>
+        <p><a href="http://www.yahoo.fr" id="l21_2">Yahoo</a></p>
         <script>
         function accesAttributs() {
         var lien1 = document.getElementById("l21_1").getAttribute('href');
@@ -522,8 +522,8 @@
 			<li>Accès aux attributs par les propriétés : exemple <code>href</code> pour l'élément <code>a</code></li>
 		</ul>
       <pre>
-        <code>    &lt;p&gt;&lt;a href="http://www.ensicaen.fr" id="l22_3"&gt;ENSICAEN&lt;/a&gt;&lt;/p&gt;</code>
-        <code>    &lt;p&gt;&lt;a href="http://www.insa.fr" id="l22_4"&gt;INSA&lt;/a&gt;&lt;/p&gt;</code>
+        <code>    &lt;p&gt;&lt;a href="http://www.google.fr" id="l22_3"&gt;Google&lt;/a&gt;&lt;/p&gt;</code>
+        <code>    &lt;p&gt;&lt;a href="http://www.yahoo.fr" id="l22_4"&gt;Yahoo&lt;/a&gt;&lt;/p&gt;</code>
         <code>    &lt;script&gt;</code>
         <code>      var lien3 = document.getElementById("l22_3").<mark>href</mark>;</code>
         <code>      var lien4 = document.getElementById("l22_4").href;</code>
@@ -543,8 +543,8 @@
 		<ul onclick=accesAttributs2()>
 			<li>Accès aux attributs par les propriétés : exemple <code>href</code> pour l'élément <code>a</code></li>
 		</ul>
-        <p><a href="http://www.ensicaen.fr" id="l22_3">ENSICAEN</a></p>
-        <p><a href="http://www.insa.fr" id="l22_4">INSA</a></p>
+        <p><a href="http://www.google.fr" id="l22_3">Google</a></p>
+        <p><a href="http://www.yahoo.fr" id="l22_4">Yahoo</a></p>
         <script>
         function accesAttributs2() {
         var lien3 = document.getElementById("l22_3").href;
@@ -648,7 +648,7 @@
 			<li>Remplacer un élément : <code>replaceChild()</code></li>
 		</ul>
       <pre>
-        <code>    &lt;p id="p25"&gt;&lt;a href="http://www.ensicaen.fr"&gt;ENSICAEN&lt;/a&gt;&lt;/p&gt;</code>
+        <code>    &lt;p id="p25"&gt;&lt;a href="http://www.google.fr"&gt;Google&lt;/a&gt;&lt;/p&gt;</code>
         <code>    &lt;script&gt;</code>
         <code>      var p = document.getElementById("p25");</code>
         <code>      var im = <mark>document.createElement("img")</mark>;</code>
@@ -669,7 +669,7 @@
 		<ul onclick=remplacer()>
 			<li>Remplacer un élément : <code>replaceChild()</code></li>
 		</ul>
-        <p id="p25"><a href="http://www.ensicaen.fr">ENSICAEN</a> - Cliquez dans la liste à puces</p>
+        <p id="p25"><a href="http://www.google.fr">Google</a> - Cliquez dans la liste à puces</p>
         <script>
         function remplacer(){
         var p = document.getElementById("p25");
