@@ -1,0 +1,625 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                             CONCEPTION DE SITES WEB
+%                                   MINI PROJET
+%                  ENSICAEN, SPECIALITE INFORMATIQUE, 1ERE ANNEE
+%------------------------------------------------------------------------------
+%  Auteurs : Alain Lebret  (2014/15)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,12pt]{article}
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+%%%
+\newif\ifTRUETYPE % Test pour l'utilisation des polices True Type
+\TRUETYPEtrue
+%\TRUETYPEfalse
+\ifTRUETYPE
+\else
+  \usepackage[utf8]{inputenc}
+\fi
+%%%
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage[table]{xcolor}
+\usepackage[hmargin=3cm,bottom=5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Utilisation de polices True Type à la place des polices LaTeX traditionnelles
+% Le package "inputenc" doit être enlevé et le fichier doit être compilé avec
+% XeLaTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifTRUETYPE
+\usepackage{fontspec}
+\setmainfont{Calibri} 
+\setmonofont[SmallCapsFont={Latin Modern Mono Caps}]{Latin Modern Mono Light}
+\fi
+%%%
+
+\pagestyle{fancy}
+\renewcommand{\headrule}{\relax}
+\setlength{\headheight}{70pt}
+\fancyhf{}
+\lhead{}
+\rhead{\includegraphics[height=\headheight]{../images/logoEcole.jpg}}
+\lfoot{\textit{Spécialité informatique - Conception de sites Web}\\\includegraphics[height=0.12\headheight]{../images/vague2013seule.jpg}
+A. Lebret (2015)}
+\rfoot{\thepage}
+
+\definecolor{couleur_code}{RGB}{90,90,90} 
+\newcommand\Code[1]{\textcolor{couleur_code}{\texttt{#1}}}
+\newcounter{Question}
+\setcounter{Question}{1}
+\newcommand\Question{\vspace{5pt}\textbf{Question \arabic{Question}\addtocounter{Question}{1}.~~}}
+\makeatletter
+\newcommand{\Qlabel}[1]{\addtocounter{Question}{-1}\protected@write \@auxout {}{\string \newlabel {#1}{{\arabic{Question}}{}}}\addtocounter{Question}{1}}
+
+\newcounter{Exercice}
+\setcounter{Exercice}{1}
+\newcommand\Exercice{\vspace{5pt}\textbf{Exercice \arabic{Exercice}\addtocounter{Exercice}{1}.~~}}
+\makeatletter
+\newcommand{\Qlabele}[1]{\addtocounter{Exercice}{-1}\protected@write \@auxout {}{\string \newlabel {#1}{{\arabic{Exercice}}{}}}\addtocounter{Exercice}{1}}
+\makeatother
+
+\newif\ifCORRECTION % Test pour l'affichage des corrections
+%\CORRECTIONtrue
+\CORRECTIONfalse
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\parindent0pt\parskip\smallskipamount
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+  \textbf{\Large{Conception de sites Web}}\par\smallskip
+  \textbf{\large{Mini-projet : \og{}Un site Web personnel\fg{}}}\par\smallskip
+%  1\iere ~partie : \emph{Mise en page et contenu}
+\end{center}\bigskip
+
+\textbf{Objectif~:~} \`{A} travers la réalisation d'un site Web personnel, 
+vous affirmerez vos connaissances des langages HTML et CSS. Vous mettrez en 
+\oe uvre des techniques de dynamisation à l'aide du langage Javascript côté 
+navigateur et de CGI\footnote{\emph{Common Gateway Interface}} côté serveur.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec:introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Le site personnel que nous vous proposons de réaliser devra respecter les 
+versions HTML5 et CSS3 et sera accessible depuis l'URL :\\
+\texttt{http://www.ecole.ensicaen.fr/\textasciitilde votre-identifiant/}. 
+
+Sa réalisation s'étalera sur trois séances et demi, la moitié de la dernière 
+séance étant consacrée à une présentation orale de dix minutes permettant, 
+par binômes, d'en montrer le résultat en expliquant son architecture ainsi 
+que les solutions que vous avez retenues pour le dynamiser.
+
+Pourquoi par binômes alors qu'il s'agit d'un site personnel ? Et bien avant
+tout pour grouper vos compétences et produire plus rapidement la structure 
+générale du site ainsi que les mécanismes de dynamisation de ce dernier. Les 
+ajustements personnels pourront être obtenus en modifiant la feuille de styles
+(couleurs, polices utilisées, etc.) et bien entendu le contenu.  
+
+Voyons à présent les spécifications attendues pour ce site. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Spécifications}\label{sec:specifications}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Le site Web à réaliser comportera cinq rubriques (\og{}Accueil\fg{}, 
+\og{}Curriculum vit\ae\fg{}, \og{}Blog\fg{}, \og{}Portfolio\fg{},  
+\og{}Contact\fg{}) qui seront accessibles depuis un menu de navigation, et
+que nous décrivons plus bas.
+
+Le site sera de type mono-page, c'est-à-dire que l'ensemble des rubriques 
+accessibles sera contenu dans une page unique que vous nommerez \Code{index.html}. 
+La raison de ce choix est double : d'une part vous ne disposez encore que d'un 
+contenu limité qui pourra se contenter dans un premier temps d'une page unique 
+et, d'autre part, nous pourrons plus facilement mettre en \oe uvre des 
+techniques de dynamisation Javascript à l'intérieur de cette page.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Structure de page}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Afin d'accéder aux différentes rubriques du site, nous imposons une structure 
+en trois zones :
+
+\begin{itemize}
+  \item Un bandeau d'en-tête délimité par la balise \Code{<header>} et 
+        précisant le nom du site (par exemple votre nom) et éventuellement
+        un descriptif ou un slogan pour ce site, les deux associés 
+        respectivement à des titres de niveaux 1 et 2. Un logo peut y être 
+        ajouté. 
+        Nous proposons de munir ce bandeau d'une barre de navigation délimitée
+        par la balise \texttt{<nav>} afin de passer d'une rubrique à une autre. 
+%        La liste des rubriques accessibles pouvant être considérée comme une
+%        liste non ordonnée et sans puces. 
+        Vous pouvez toutefois décider de dissocier la barre de navigation de 
+        l'en-tête si vous en apportez la justification. 
+        L'en-tête doit être fixe et apparaître en permanence (la barre de
+        navigation aussi si vous la dissociez).  
+  \item Une zone de visualisation des rubriques délimitée par la balise en
+        paires \Code{<main>} et permettant d'afficher le contenu de chaque 
+        rubrique. 
+  \item Une barre d'état délimitée par la balise \Code{<footer>} 
+        et placée préférentiellement en bas de page. Cette zone doit indiquer 
+        l'information de copyright et dispose de deux liens permettant de 
+        passer de la version française du site à sa version anglaise et vice 
+        versa.      
+\end{itemize}
+\vspace{10pt}
+
+La figure \ref{fig:mep1} propose un exemple minimal et conventionnel de ce 
+qui est attendu au niveau de la mise en page de votre site. Mais rien ne 
+vous empêche de sortir des sentiers battus et de proposer une mise en page
+à la mesure de votre esprit créatif et qui bouscule ce conventionnel, en 
+jouant, entre autres, avec les feuilles de styles. 
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/site_accueil.pdf} 
+    \caption{Exemple de page d'accueil pour le site Web}
+    \label{fig:mep1} 
+  \end{center}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Détail des rubriques}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Chaque rubrique du site mono-page correspond à une section (balise 
+\Code{<section>}) munie d'un en-tête et composée ou non d'articles 
+(balise \Code{<article>}). Chaque section peut être associée à une zone 
+complémentaire (balise \texttt{<aside>}). 
+L'en-tête de la section est composé d'un titre de niveau 1 qui est en général 
+le même que le nom de la rubrique\footnote{Ceci n'est pas obligatoire si le 
+visiteur peut se localiser facilement sur le site, auquel cas le titre de 
+niveau 2 devient titre de niveau 1. C'est le cas sur l'exemple de la figure 
+\ref{fig:mep1} où l'information de localisation est fournie par la barre 
+de navigation et pourrait éviter la répétition.}, voire d'un sous-titre de 
+niveau 2 et le cas échéant d'un élément de navigation. Chaque article, quant 
+à lui, est composé d'au moins un titre de niveau 2, éventuellement d'un 
+sous-titre de niveau 3, d'une date et de paragraphes. 
+        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Rubrique \Code{Accueil}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+La rubrique \Code{Accueil} est la rubrique par défaut sur laquelle se retrouve
+tout nouveau visiteur (voir figure \ref{fig:mep1}). Elle contient un court 
+descriptif sur vous et sur ce que les visiteurs pourront trouver sur ce site. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Rubrique \Code{Curriculum vit\ae}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+La rubrique \Code{Curriculum vit\ae} permet de visualiser votre CV. Sa 
+sélection provoque l'ouverture du document que vous avez réalisé dans le TP \no 
+1\footnote{Pensez à enlever du curriculum vit\ae ~vos coordonnées personnelles 
+pour ne laisser éventuellement que les coordonnées professionnelles. Tout 
+échange de coordonnées pourra éventuellement se faire par l'intermédiaire de 
+la rubrique \Code{Contact}.}, soit dans l'onglet courant du navigateur, soit 
+de manière intégrée comme l'illustre la figure \ref{fig:mep2}.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/site_cv.pdf} 
+    \caption{Exemple d'intégration du curriculum vit\ae}
+    \label{fig:mep2} 
+  \end{center}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Rubrique \Code{Blog}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+La troisième rubrique (\Code{Blog}) est une rubrique permettant de vous 
+exprimer sur le sujet qui vous tient le plus à c\oe ur\footnote{Un nombre 
+supérieur de sujets surchargerait inutilement ce petit site.} en produisant 
+des billets (articles) datés.
+
+Cette rubrique %est constituée au moins d'un titre de niveau 1 (le nom de la 
+%rubrique) et d'un sous-titre (le sujet du blog) ainsi que d'un ensemble d'articles.
+%Elle 
+dispose d'un fonction de mise en valeur du texte des articles (encadrement des
+articles, mise en valeur du texte à emphase, couleurs, etc.) par l'intermédiaire
+d'un bouton ou autre. 
+
+Trois fonctions supplémentaires peuvent éventuellement être envisagées
+pour ce blog : 
+
+\begin{enumerate}
+  \item Recherche et surlignage d'un mot dans l'ensemble du blog.
+  \item Affichage d'un nuage des mots les plus fréquents dans le blog. 
+  \item Tri des articles du blog en fonction de leurs dates (croissantes ou
+        décroissantes).
+\end{enumerate}
+\vspace{10pt}
+
+La figure \ref{fig:mep3} propose un exemple de mise en page de cette rubrique 
+où le bloc qui précède les articles contient un champ de recherche de mots, un 
+bouton de mise en valeurs des articles ainsi qu'une zone d'affichage du nuage 
+des mots les plus fréquents (balise \Code{<canvas>}). 
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/site_blog.pdf} 
+    \caption{Exemple de rubrique \og{}blog\fg{}}
+    \label{fig:mep3} 
+  \end{center}
+\end{figure}
+
+Des exemples de mise en valeur des articles et de résultat d'une recherche 
+sont présentés figure \ref{fig:mep4}.  
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.48\textwidth]{images/site_blog_enjoliver.pdf}
+    \includegraphics[width=0.48\textwidth]{images/site_blog_rechercher.pdf} 
+    \caption{Exemples de mise en valeur des articles à l'aide du bouton
+             \Code{Enjoliver les articles} (figure de gauche) et de résultat
+             d'une recherche de mot (figure de droite).}
+    \label{fig:mep4} 
+  \end{center}
+\end{figure}
+
+%\begin{figure}[h]
+%  \begin{center}
+%    \includegraphics[width=0.7\textwidth]{images/site_blog_rechercher.pdf} 
+%    \caption{Résultat d'une recherche de mot dans la rubrique \og{}Blog\fg{}}
+%    \label{fig:mep5} 
+%  \end{center}
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Rubrique \Code{Portfolio}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Un portfolio est un \og{}dossier personnel dans lequel les acquis de formation
+et les acquis d'expériences d'une personne sont définis et démontrés en vue 
+d'une reconnaissance par un établissement d'enseignement ou un employeur.\fg{} 
+(Source : http://fr.wiktionary.org/). 
+
+Comme on peut le remarquer sur la figure \ref{fig:mep5}, les portfolios que 
+l'on trouve sur le Web vont de la simple page HTML n'utilisant aucune feuille 
+de styles mais permettant le téléchargement du code source des projets, à des 
+pages plus complexes qui exploitent de nombreux mécanismes de dynamisation et 
+proposent des démonstrations (applets Java, vidéos, etc.), mais peuvent pour
+des raisons de confidentialité rester discrètes quant à leur implémentation. 
+
+\begin{figure}[htbp]
+  \begin{tabular}{cc}
+    \includegraphics[width=0.49\textwidth]{images/exemple_portfolio_0.pdf} & \includegraphics[width=0.49\textwidth]{images/exemple_portfolio_1.pdf} \\\hline 
+    \footnotesize{http://www.cs.toronto.edu/~trebla/personal/portfolio/} & \footnotesize{Projet \emph{Extended Euclidean Algorithm steps}} \\\hline 
+    \includegraphics[width=0.49\textwidth]{images/exemple_portfolio_2.pdf} & \includegraphics[width=0.49\textwidth]{images/exemple_portfolio_4.pdf} \\\hline 
+    \footnotesize{http://johnshipp.com/portfolio/} & \footnotesize{Projet \emph{WebPipeSSO}} \\\hline 
+\end{tabular}
+    \caption{Deux exemples de portfolios sur la toile. 
+             \`{A} gauche la page du portfolio et à droite celle d'un des projets.}
+    \label{fig:mep5} 
+\end{figure}
+
+Dans le cas présent, la rubrique \Code{Portfolio} doit démontrer aux visiteurs
+vos compétences en informatique. Il sera donc nécessaire d'y mettre en avant 
+les projets que vous avez menés à bien sans forcément tout y révéler. Leur mise
+en avant peut nécessiter la présentation de codes sources, l'intégration de
+vidéos ou des démonstrations, et donc mettre en \oe uvre des mécanismes de 
+dynamisation chargées d'impacter davantage le visiteur. 
+
+Cette rubrique est composée d'un en-tête comprenant au minimum un titre, voire
+un sous-titre, et un bloc de navigation qui permet d'accéder au contenu des 
+projets en les catégorisant éventuellement. 
+Chaque projet est contenu dans un article daté et composé au minimum d'un titre
+de niveau 2 et de paragraphes dans lesquels vous pourrez insérer du texte, des
+algorithmes, des codes sources, des démonstrations, etc..
+
+Les figures \ref{fig:mep6} et \ref{fig:mep7} illustrent un exemple de portfolio
+simple où une barre de navigation permet d'accéder aux catégories de projets
+ainsi qu'aux informations sur les projets eux-mêmes. 
+La figure \ref{fig:mep7} propose la mise en évidence de projets avec une 
+démonstration en ligne pour l'un et un affichage du code source pour 
+l'autre. 
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/site_portfolio1.pdf}
+    \caption{Exemple de rubrique \og{}Portfolio\fg{}}
+    \label{fig:mep6} 
+  \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/site_portfolio2.pdf} 
+    \caption{Exemples de mise en évidence de projets dans la rubrique 
+             \og{}Portfolio\fg{}.}
+    \label{fig:mep7} 
+  \end{center}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Rubrique \Code{Contact}}\label{sec:contact}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+La rubrique \Code{Contact} fournit au visiteur un moyen de vous joindre à 
+l'aide d'un formulaire. Les données envoyées par un visiteur sont reçues
+par le serveur qui en retour enverra une page indiquant que la demande a bien
+été prise en compte. Cette page indiquera notamment un résumé des informations  
+fournies par le visiteur, le type de navigateur du visiteur ainsi que son
+adresse IP puis la date. Les données transmises par le visiteur sont alors
+transmise à l'administrateur du site.
+
+Le formulaire peut éventuellement être munie d'une image 
+captcha\footnote{https://fr.wikipedia.org/wiki/CAPTCHA} générée par le serveur
+et qui permettra d'exclure toute demande n'ayant pu en indiquer le contenu. 
+
+La figure \ref{fig:mep8} montre un exemple de formulaire pour la rubrique 
+\Code{Contact}. En bonus, la zone de droite affiche votre localisation à l'aide 
+d'une carte Google.
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{images/site_contact.pdf} 
+    \caption{Exemple de rubrique \og{}Contact\fg{}}
+    \label{fig:mep8} 
+  \end{center}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Travail à réaliser}\label{sec:travail}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+La réalisation de votre site Web passe par quatre étapes : maquettage, 
+structuration du contenu et mise en page, dynamisation côté client, puis
+côté serveur. Les étapes sont constituées d'activités obligatoires, voire
+optionnelles, classées en cinq niveaux de difficulté que nous signalons par 
+des étoiles : 
+\vspace{3pt}
+\begin{itemize}
+   \item facile \includegraphics[width=0.12\textwidth]{images/etoile1.pdf}
+   \item plutôt facile \includegraphics[width=0.12\textwidth]{images/etoile2.pdf}
+   \item difficulté moyenne \includegraphics[width=0.12\textwidth]{images/etoile3.pdf}
+   \item plutôt difficile \includegraphics[width=0.12\textwidth]{images/etoile4.pdf}
+   \item difficile \includegraphics[width=0.12\textwidth]{images/etoile5.pdf}
+\end{itemize}
+\vspace{3pt}
+
+Vous devriez en principe franchir l'ensemble des étapes de niveaux \og{}facile\fg{}
+à \og{}difficulté moyenne\fg{}.
+
+\subsection{Maquettage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+(Niveau de difficulté \includegraphics[width=0.12\textwidth]{images/etoile1.pdf})
+
+Avant de se lancer avec frénésie dans l'étape de codage du site, il est 
+nécessaire de déterminer l'agencement des différents éléments dans les pages 
+de manière à permettre une navigation claire et efficace.  
+C'est une étape de maquettage, qui peut s'effectuer soit sur papier libre, 
+soit à l'aide d'un logiciel de dessin vectoriel (outil de dessin dans 
+LibreOffice, Dia, Inkscape, etc.), et qui vous permet de préciser les dimensions,
+positionnements, structures supplémentaires, etc. dont vous aurez besoin pour
+réaliser le site. 
+Cette étape doit vous guider dans la réalisation de votre feuille de styles 
+et vous amener au choix des mécanismes de dynamisation dont vous aurez besoin.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Mise en page et contenu}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+(Niveau de difficulté \includegraphics[width=0.12\textwidth]{images/etoile2.pdf})
+
+Proposez les codes HTML et CSS permettant de respecter la structure attendue et
+de produire la mise en page que vous avez fixée pour votre site, puis insérez-y 
+votre contenu. 
+
+Nous vous rappelons que la racine de votre site correspond au répertoire 
+\Code{public\_html}. La version française de votre site Web sera contenue
+dans le fichier \Code{index.html} placé à la racine et sa version anglaise, le
+cas échéant, le sera dans le fichier \Code{index\_en.html}. Vos styles CSS
+seront définis dans le fichier \Code{<vos\_initiales>.css} placé dans le 
+sous-répertoire \Code{styles} et les images que vous utiliserez seront, 
+quant à elles, stockées dans le sous-répertoire \Code{images}.
+
+Vos codes devront être valides HTML5 et CSS3 et éviter autant que faire se peut
+l'utilisation des balises universelles \texttt{<div>} et \texttt{<span>}.
+Vous vérifierez le résultat sur différents navigateurs.
+
+(voir le document ressources \no 1 sur Moodle)
+\ifCORRECTION
+ \textbf{Réponse : }
+\begin{verbatim}
+<!DOCTYPE HTML>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Titre de la page</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/script.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Jean Saigne</h1><h2>Développeur en herbe</h2>
+      <nav></nav>
+    </header>
+    <main>
+      <!-- Le reste du contenu -->
+    </main>
+    <footer></footer>
+  </body>
+</html>
+\end{verbatim}           
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dynamisation coté client}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%S'il est possible de donner à un site un aspect \og{}dynamique\fg{} en utilisant
+%les feuilles de styles, comme par exemple à l'aide du sélecteur \Code{:hover} 
+%qui permet de modifier l'aspect du lien d'une rubrique dans le menu de 
+%navigation lors de son survol par la souris, la mise au point d'un site 
+%véritablement réactif, vis-à-vis du visiteur, requiert l'utilisation d'un 
+%langage adapté tel que Javascript. 
+%Ainsi, la rubrique \Code{Blog} dispose de trois fonctionnalités qui nécessitent
+%l'utilisation de code Javascript, de même que les rubriques \Code{Contact} si 
+%vous souhaitez y intégrer une carte Google, et encore bien d'autres si vous 
+%êtes très ambitieux. 
+Vos fonctions Javascript seront définies dans le fichier \Code{<vos\_initiales>.js} 
+qui sera placé dans le sous-répertoire \Code{scripts} présent à la racine du 
+site. 
+
+\subsubsection{Dynamisation du blog}
+\paragraph*{Obligatoire}~\\
+Réaliser la fonction Javascript
+\Code{enjoliver} (\includegraphics[width=0.10\textwidth]{images/etoile2.pdf})
+permettant de mettre en valeur les articles du blog. 
+
+\paragraph*{Optionnel}~\\
+Proposer des fonctions Javascript qui permettent de : 
+\vspace{3pt}
+
+\begin{itemize}
+  \item \Code{rechercherMot} : rechercher et surligner un mot dans les articles 
+        (\includegraphics[width=0.10\textwidth]{images/etoile3.pdf}) ;
+  \item \Code{creerNuageMots} : générer un nuage des mots les plus fréquents 
+        (\includegraphics[width=0.10\textwidth]{images/etoile4.pdf}) ;
+  \item \Code{trierParDate} : trier et afficher les billets suivant leurs dates,
+        croissantes
+        ou décroissantes, à l'aide d'une liste déroulante des critères de tri 
+        (\includegraphics[width=0.10\textwidth]{images/etoile3.pdf}).
+\end{itemize}
+
+\subsubsection{Dynamisation du portfolio}
+\paragraph*{Optionnel}~\\
+Proposer des mécanismes de dynamisation pour la rubrique \Code{Portfolio} 
+en fonction du ou des projets qui y sont présentés.
+
+%Certaines fonction
+%\small{
+%\begin{verbatim}
+%/* Point d'entrée du script */
+%function init(){
+%   /* Appel des fonctions qui doivent être chargée au démarrage,
+%      par exemple l'affichage du nuage de mots */
+%}
+%
+%/* Définitions de vos fonctions */
+%
+%/* 
+%* Quand toutes les données sont chargées (DOM, images, sons, vidéos,
+%* etc.), on fait de même avec la fonction init()
+%*/
+%window.onload = init;
+%\end{verbatim}           
+%}
+\vspace{5pt}
+
+(voir le document ressources \no 2 sur Moodle)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dynamisation côté serveur}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Vos scripts CGI seront placés dans le sous-répertoire \Code{cgi-bin} présent 
+à la racine du site, et devront être exécutables par tous. 
+
+\subsubsection{Analyse du formulaire de contact}
+%(Niveau de difficulté \includegraphics[width=0.12\textwidth]{images/etoile3.pdf})
+\paragraph*{Obligatoire}~\\
+Proposer un script CGI en bash (\Code{gerer\_form.sh}) permettant de répondre 
+aux spécifications de la section \ref{sec:contact} 
+(\includegraphics[width=0.12\textwidth]{images/etoile3.pdf}). L'envoi du mail à 
+l'administrateur sera remplacé par l'écriture dans un fichier texte des 
+informations fournies par le visiteur. 
+
+\paragraph*{Optionnel}~\\
+Ajouter la gestion de l'image captcha (\includegraphics[width=0.12\textwidth]{images/etoile3.pdf})
+et insérez une carte Google pour permettre votre localisation   
+(\includegraphics[width=0.12\textwidth]{images/etoile2.pdf}).
+
+\subsubsection{Compteur de visites}
+\paragraph*{Optionnel}~\\
+Proposer un script CGI en bash (\Code{compter\_visites.sh}) permettant 
+d'ajouter le nombre de visites sur le pied de page de votre site 
+(\includegraphics[width=0.12\textwidth]{images/etoile2.pdf}). Le nombre de
+visiteurs sera stocké dans le fichier \Code{visites.txt} placé à la racine.
+\vspace{5pt}
+
+(voir le document ressources \no 3 sur Moodle)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Annexes}\label{sec:annexes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Ressources sur Internet}
+%\subsubsection{Choisir vos polices}
+%\begin{itemize}
+%  \item http://www.typetester.org/
+%\end{itemize} 
+%
+%\subsubsection{Choisir vos couleurs}
+%\begin{itemize}
+%  \item http://www.code-couleur.com/ : site généraliste sur la couleur
+%  \item http://www.colourlovers.com/ : site généraliste avec de nombreux 
+%        choix de palettes
+%  \item http://www.degraeve.com/color-palette/ : générateur de palettes 6 
+%        couleurs à partir de photos
+%  \item http://www.color-hex.com/ : générateur de couleurs très simple
+%\end{itemize}
+%
+%\subsubsection{Bibliothèques Javascript}
+%\begin{itemize}
+%  \item Généralistes : JQuery\footnote{La bibliothèque JQuery fournit un 
+%        ensemble de fonctions qui permettent d'analyser la structure d'un 
+%        fichier HTML, voire de la modifier, de manipuler les CSS pour les 
+%        adapter. Elle propose aussi des fonctions d'affichage ou d'animation
+%        adaptées à la présentation de galeries d'images, de portfolios, etc.
+%        En complément de l'API de jQuery disponible à la source, vous pouvez 
+%        consulter les tutoriels du W3C sur le sujet.} (http://jquery.com) 
+%  \item Coloration syntaxique : Prism (http://prismjs.com/)
+%  \item Nuages de mots-clés : Wordcloud.js (http://timdream.org/wordcloud2.js),
+%        Tagcanvas (http://www.goat1000.com/tagcanvas.php), 
+%        D3-cloud (https://github.com/jasondavies/d3-cloud)
+%\end{itemize}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Internet Explorer et HTML5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Les versions d'Internet Explorer inférieures à la version 9 ne reconnaissent
+%pas les nouvelles balises sémantiques HTML5. Il est nécessaire d'insérer dans
+%l'en-tête de vos pages le code suivant qui permettra aux navigateurs 
+%d'analyser correctement vos pages.
+% 
+%\footnotesize{ 
+%\begin{verbatim}
+%<!--[if lt IE 9]-->
+%   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+%<!--[endif]-->
+%\end{verbatim}
+%}
+%   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Javascript}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%En plus du cours de Luc Brun disponible sur Moodle, voici deux sites sur 
+%lesquels vous pouvez allègrement butiner afin d'obtenir plus d'informations 
+%sur le langage Javascript : 
+%
+%\begin{itemize}
+%  \item Les tutoriels du W3C : http://www.w3schools.com/js/
+%  \item De nombreux exemples : http://www.javascriptkit.com/  
+%\end{itemize}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{CGI}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%En plus du cours de Luc Brun disponible sur Moodle, voici un site avec de
+%nombreux exemples CGI : 
+%
+%\begin{itemize}
+%  \item http://www.resourceindex.com/
+%\end{itemize}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Favicon}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Le favicon est la petite icône qui permet de symboliser un site Web et qui
+%apparaît dans la barre d'adresse, la barre de titre ou encore sur les onglets
+%et autres raccourcis du navigateur. Cette icône est en général de taille 
+%$16\times16$ ou $32\times32$ pixels et utilise le format \texttt{ico} 
+%(Ms-Windows) ou \texttt{png}. 
+%Par exemple, afin d'associer l'icône \Code{favicon.png} à une page Web, il 
+%est nécessaire d'ajouter dans l'en-tête de la page la ligne suivante :
+%\begin{verbatim}
+%   <link rel="icon" type="image/png" href="favicon.png" />
+%\end{verbatim}
+\end{document}
