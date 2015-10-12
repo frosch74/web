@@ -1,0 +1,226 @@
+<!-- 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            CONCEPTION DE SITES WEB 
+%                    Cours spécialité informatique 1ère année
+%                                    ENSICAEN
+%                                    2014-2015
+%                                  Alain Lebret
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-->
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+	<title>Conception de sites Web (partie 1)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>ENSICAEN</h1>
+		<p>2014-2015</p>
+	</header>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide cover" id="Cover"><div>
+		<h2>Conception de sites Web</h2>
+		<h3>Introduction</h3> 
+		<p><a href="mailto:alain.rene.lebret@gmail.com">Alain Lebret</a></p>
+		<img src="pictures/cover2.png" alt="">
+		<style>
+			#Cover h2 {
+				margin:30px 0 0;
+				color:#FFF;
+				text-align:center;
+				font-size:70px;
+			}
+			#Cover h3 {
+				margin:30px 0 0;
+				color:#FFF;
+				text-align:center;
+				font-size:40px;
+			}
+			#Cover p {
+				margin:10px 0 0;
+				text-align:center;
+				color:#FFF;
+				font-style:italic;
+				font-size:20px;
+			}
+			#Cover p a {
+				color:#FFF;
+			}
+		</style>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide cover" id="Worst"><div>
+		<img src="pictures/worst-website.jpg" alt="" title="" />
+		<style>
+			#Worst h2 {
+				color:#FFF;
+			}
+		</style>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide cover" id="Better"><div>
+<!--		<h2>Beaucoup mieux</h2> -->
+		<img src="pictures/better-website.jpg" alt="" title="" />
+		<style>
+			#Better h2 {
+				color:#FFF;
+			}
+		</style>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide"><div>
+		<h2>Plan</h2>
+		<ul>
+            <li>Introduction</li>
+			<li>Fond &amp; Forme : HTML et CSS</li>
+			<li>Pages dynamiques côté client avec Javascript</li>
+			<li>Pages dynamiques côté serveur avec CGI</li>
+		</ul>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide shout"><div>
+		<h2>Introduction</h2>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http1"><div>
+		<h2>HTTP (<em>HyperText Transfert Protocol</em>)</h2>
+		<p><center><object type="image/svg+xml" data="pictures/modele-client-serveur.svg" width="600">Votre navigateur ne supporte pas SVG</object></center></p>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http2"><div>
+		<h2>HTTP (<em>HyperText Transfert Protocol</em>)</h2>
+		<ul>
+		  <li>Protocole de communication client/serveur</li>
+			<li>Utilise <a href="http://tools.ietf.org/html/rfc793">TCP</a> (<em>Transfert Control Protocol</em>)</li> 
+		  <li>Port <strong>80</strong></li>
+			<li>RFC <a href="http://tools.ietf.org/html/rfc2616">2616</a> (1999) et <a href="http://tools.ietf.org/html/rfc7230">7230</a>-7240 (2014)</li>
+      <li>Visualiser les requêtes HTTP brutes
+          <ul>
+            <li>Greffon LiveHTTPHeaders (<a href="https://addons.mozilla.org/fr/firefox/addon/live-http-headers/">Firefox</a>, <a href="https://chrome.google.com/webstore/detail/live-http-headers/iaiioopjkcekapmldfgbebdclcnpgnlo/">Chrome</a> )</li>
+            <li>Analyseur de paquets : <a href="https://www.wireshark.org/">Wireshark</a>, <a href="https://kismetwireless.net/">Kismet</a>, <a href="http://www.tcpdump.org/">tcpdump</a></li>
+          </ul></li>
+		</ul>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http3"><div>
+		<h2>HTTP : Demande de page (requête <code>GET</code>)</h2>
+		<p><center><object type="image/svg+xml" data="pictures/modele-client-serveur1.svg" width="600">Votre navigateur ne supporte pas SVG</object></center></p>
+		<pre>
+<code><mark>GET http://www.ensicaen.fr HTTP/1.1</mark></code>
+        </pre>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http4"><div>
+		<h2>HTTP : Demande de page (requête <code>GET</code>)</h2>
+		<pre>
+<code><mark>GET http://www.ensicaen.fr HTTP/1.1</mark></code>
+<code>Host: www.ensicaen.fr</code>
+<code>User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:35.0) Gecko/20100101 Firefox/35.0</code>
+<code>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</code>
+<code>Accept-Language: fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3</code>
+<code>Accept-Encoding: gzip, deflate</code>
+<code>DNT: 1</code>
+<code>Cookie: JSESSIONID=BAB4B5BD04C10FD3311210FB6F1F52B2</code>
+<code>Connection: keep-alive</code>
+        </pre>
+		<style>
+			#http4 pre {
+				font-size:20px;
+				}
+		</style>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http5"><div>
+		<h2>HTTP : Réponse du serveur</h2>
+		<pre>
+<code><mark>HTTP/1.1 200 OK</mark></code>
+<code>Date: Sat, 31 Jan 2015 17:12:16 GMT</code>
+<code>Server: Apache/2.2.22 (Debian)</code>
+<code>Vary: Accept-Encoding</code>
+<code>Content-Encoding: gzip</code>
+<code>Content-Length: 6005</code>
+<code>Keep-Alive: timeout=5, max=100</code>
+<code>Connection: Keep-Alive</code>
+<code>Content-Type: text/html;charset=ISO-8859-1</code>
+<code>...</code>
+        </pre>
+		<style>
+			#http5 pre {
+				font-size:20px;
+				}
+		</style>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http6"><div>
+		<h2>HTTP : Envoi de données (requête <code>GET</code>)</h2>
+		<p><center><object type="image/svg+xml" data="pictures/modele-client-serveur2.svg" width="600">Votre navigateur ne supporte pas SVG</object><br />Sans modification des données distantes (recherche)</center></p>
+		<pre><code>GET http://www.commentcamarche.net/search/index.html<mark>?q=java</mark></code></pre>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="http7"><div>
+		<h2>HTTP : Envoi de données (requête <code>POST</code>)</h2>
+		<p><center><object type="image/svg+xml" data="pictures/modele-client-serveur3.svg" width="600">Votre navigateur ne supporte pas SVG</object><br />Avec modification des données distantes (formulaire)</center></p>
+		<pre><code>POST http://foad.ensicaen.fr/modedit.php</code></pre>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="https1"><div>
+		<h2>HTTPS : Un HTTP sécurisé</h2>
+		<ul>
+		    <li>Protocole HTTP</li>
+		    <li>Couche de chiffrement 
+		        <a href="http://tools.ietf.org/html/rfc5246">TLS</a><sup>*</sup> (<em>Transport
+		        Secure Layer</em>) ou 
+		        <a href="http://tools.ietf.org/html/rfc6101">SSL</a> (<em>Secure 
+		        Socket Layer</em>) + Certificat</li>
+			<li>Port <strong>443</strong>
+			<li>RFC <a href="http://tools.ietf.org/html/rfc2818">2818</a> (2000)</li>
+		</ul>
+		<p class="note">(*) Version actuelle : 1.2 (1.0 vulnérable)</p></center>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide" id="references"><div>
+		<h2>Références</h2>
+		<ul>Sites
+      <li>Site du W3C (<em>World Wide Web Consortium</em>) : <a href="http://www.w3.org">http://www.w3.org</a></li>
+      <li>Manuel du développeur : <a href="http://www.w3.org/html/wg/drafts/html/master/Overview.html">http://www.w3.org/html/wg/drafts/html/master/Overview.html</a></li>
+			<li>Tutoriels : <a href="http://www.w3schools.com/">http://www.w3schools.com/</a></li>
+			<li>Validation HTML / CSS : <a href="http://validator.w3.org/">http://validator.w3.org</a> /
+			<a href="http://jigsaw.w3.org/css-validator/">http://jigsaw.w3.org/css-validator</a></li>
+		</ul>
+		<ul>Livres
+			<li>Rodolphe Rimelé. <em>HTML 5 : Une référence pour le développeur Web</em>, Eyrolles (2013)</li>
+			<li>Mathieu Nébra. <em>Réalisez votre site Web avec HTML5 et CSS3</em>, Site du Zéro (2011)</li>
+			<li>Shelley Powers. <em>Débuter en JavaScript</em>, Eyrolles (2007)</li>
+		</ul>
+		<style>
+			#references li {
+				font-size:20px;
+				}
+		</style>
+	</div></section>
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+	<section class="slide shout" id="SeeMore"><div>
+		<h2><img src="pictures/logoEcole.jpg" alt="">&nbsp;<a href="http://foad.ensicaen.fr">foad.ensicaen.fr</a></h2>
+		<style>
+			#Picture h2 {
+				color:#FFF;
+				}
+			#SeeMore h2 {
+				font-size:100px
+				}
+			#SeeMore img {
+				width:0.90em;
+				height:0.72em;
+				}
+		</style>
+	</div></section>
+	<p class="badge"><a href="http://foad.ensicaen.fr">http://foad.ensicaen.fr</a></p>
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<!-- Copyright © 2014-2015 Alain Lebret -->
+</body>
+</html>
